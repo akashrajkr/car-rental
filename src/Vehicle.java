@@ -1,5 +1,9 @@
 public class Vehicle {
-    String make, registrationNumber;
+    String make;
+    String registrationNumber;
 
+    public void rentVehicle() {
+
+    }
 
 }
