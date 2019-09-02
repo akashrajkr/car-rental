@@ -1,7 +1,8 @@
 
-#car-rental
+#Rental Manager
 
 ## Description of application
+
 A vehicle rental company needs an application to manage vehicle rentals. The company rents
 vehicles in 5 categories:
 1. small car
