@@ -21,7 +21,7 @@ class RentalManager{
             Vehicle newVehicle = new Vehicle();
             newVehicle.rentVehicle();
         } else if(ch == 2){
-            try (BufferedReader vehicleDatabase = new BufferedReader(new FileReader("~/IdeaProjects/car-rental/src/vehicles.txt"))) {
+            try (BufferedReader vehicleDatabase = new BufferedReader(new FileReader("vehicles.txt"))) {
                 System.out.println(vehicleDatabase.readLine());
             } catch (FileNotFoundException e){
                 e.printStackTrace();
