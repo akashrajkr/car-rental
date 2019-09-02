@@ -1,5 +1,4 @@
-
-#Rental Manager
+# Rental manager
 
 ## Description of application
 
