@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 class RentalManager{
     public static void main(String[] args) {
-            System.out.println("1.Rent a vehicle.\n2.List all the vehicles out for rent.\n3. Return a vehicle.\n4.Exit");
+        System.out.println("1.Rent a vehicle.\n2.List all the vehicles out for rent.\n3. Return a vehicle.\n4.Exit");
         Scanner scan = new Scanner(System.in);
         int ch = Integer.parseInt(scan.nextLine());
         if(ch == 4){
@@ -23,18 +23,20 @@ class RentalManager{
         else if(ch == 2){
             try (BufferedReader vehicleDatabase = new BufferedReader(new FileReader("vehicles.txt"))) {
                 System.out.println("List of vehicles out for rent: ");
-                if(vehicleDatabase.readLine() == null){
-                    System.out.println("no vehicles out for rent!");
-                }
                 String record;
-                while((record = vehicleDatabase.readLine()) != null){
-                    System.out.println(record);
+                if((record = vehicleDatabase.readLine()) == null){
+                    System.out.println("No vehicles out for rent!");
                 }
+
+                do {
+                    System.out.println(record.split(",")[0]);
+                } while (((record = vehicleDatabase.readLine()) != null));
             } catch (FileNotFoundException e){
                 e.printStackTrace();
                 System.out.println("file not found! exiting...");
                 exit(0);
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
         } else {
