@@ -49,6 +49,7 @@ class RentalManager{
         driver.getDetails();
         if(driver.canRent()){
             System.out.println("Driver can rent");
+            driver.writeInfo();
             Vehicle v = new Vehicle();
             v.rentNow();
         } else {

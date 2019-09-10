@@ -1,4 +1,3 @@
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,5 +85,10 @@ public class Driver {
         }
         System.out.println("You must have a full licence to drive a " + vtype + ".");
         return false;
+    }
+
+    public void writeInfo() {
+//        Writing to the drivers.txt file
+
     }
 }
