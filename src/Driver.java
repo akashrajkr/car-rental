@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,6 +93,23 @@ public class Driver {
     public void writeInfo() {
 //        Writing to the drivers.txt file
 //        Driver identification number,driver name,birthdate(if you want)
+        String textToAppend = String.format("%s,%s,%s", DIN, driver_name, DOB);
+
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(
+                    new FileWriter("drivers.txt", true)  //Set true for append mode
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            writer.newLine();   //Add new line
+            writer.write(textToAppend);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

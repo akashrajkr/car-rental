@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.*;
 import java.time.LocalDate;
 import java.time.Period;
@@ -9,8 +12,6 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 class Vehicle {
-    protected String make;
-    protected String registrationNumber;
     protected Date startDate, endDate;
 //    localDateTime objects for adding days to Date objects
     protected LocalDate lStartDate, lEndDate;
@@ -54,21 +55,53 @@ class Vehicle {
             System.out.println();
         }
 //        Writing everything to a file now
+        writeInfo();
+    }
+    private void writeInfo() {
+//        Writing vehicle info into a file for further processing in the format
+//        registration number,  make, startDate, endDate, driverIdentifictionNumber
+
         String tempRegNumber ;
         String tempMake;
         Random rnd = new Random();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         int stateCode = 100;
         while (stateCode > 54){
             stateCode = Integer.parseInt(rnd.nextInt(10) +  rnd.nextInt(10) + "");
         }
         tempRegNumber = "KA-" + stateCode + " " +  (char) (rnd.nextInt(26) + 'A') + (char) (rnd.nextInt(26) + 'A') + "-" + rnd.nextInt(10) + rnd.nextInt(10) +rnd.nextInt(10) +rnd.nextInt(10) ;
-        tempMake = rnd.nextInt(15) + 2005 + " ";
+        tempMake = rnd.nextInt(15) + 2005 + "";
         System.out.println("Registration number " + tempRegNumber + "\nMake : " + tempMake);
+
+        String textToAppend = String.format(",%s,%s,%s,%s", tempRegNumber, tempMake, lStartDate.format(fmt), lEndDate.format(fmt));
+//        lStartDate = LocalDate.ofInstant(startDate.toInstant(),  ZoneId.systemDefault());  Might help while reading the date format from txt file
+
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(
+                    new FileWriter("drivers.txt", true)  //Set true for append mode
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            writer.write(textToAppend);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void returnNow() {
+        String regNo = "";
         String date = "";
-        try (Scanner scan = new Scanner(System.in)) {
+        Scanner scan = new Scanner(System.in);
+        try {
+            System.out.println("Enter the Driver Identification Number : ");
+            regNo = scan.nextLine();
+//            Check if the driver has taken any vehicle out for rent
+            String currLine = "", lastLine = "";
+
             System.out.println("Enter the date of actual return (dd/mm/yyyy): ");
             date = scan.nextLine();
         } catch (Exception e) {
