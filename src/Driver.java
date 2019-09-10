@@ -89,6 +89,7 @@ public class Driver {
 
     public void writeInfo() {
 //        Writing to the drivers.txt file
+//        Driver identification number,driver name,birthdate(if you want)
 
     }
 }
