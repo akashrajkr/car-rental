@@ -21,7 +21,8 @@ class RentalManager{
             rentVehicle();
         }
         else if(ch == 2){
-            try (BufferedReader vehicleDatabase = new BufferedReader(new FileReader("vehicles.txt"))) {
+            try (BufferedReader vehicleDatabase = new BufferedReader(new FileReader("drivers.txt"))) {
+                vehicleDatabase.readLine();
                 System.out.println("List of vehicles out for rent: ");
                 String record;
                 if((record = vehicleDatabase.readLine()) == null){
@@ -39,9 +40,14 @@ class RentalManager{
 
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("You entered a wrong choice!");
+        } else if(ch == 3) {
+            returnVehicle();
         }
+    }
+
+    private static void returnVehicle() {
+        Vehicle v = new Vehicle();
+        v.returnNow();
     }
 
     static void rentVehicle() {

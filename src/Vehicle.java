@@ -1,6 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.*;
 import java.time.LocalDate;
 import java.time.Period;
@@ -10,6 +8,9 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.time.temporal.ChronoUnit;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 class Vehicle {
     protected Date startDate, endDate;
@@ -17,11 +18,11 @@ class Vehicle {
     protected LocalDate lStartDate, lEndDate;
     String date;
     protected int cost;
-    protected long days;
-    protected Period actualDays;
+    protected long actualDays, days;
     protected LocalDate returnDate;
 
     public void rentNow() {
+        long diff;
         Scanner scan = new Scanner(System.in);
         System.out.println("Vehicle required from (press <Enter> to start from today)  (dd/mm/yyyy) : ");
         date = scan.nextLine();
@@ -48,15 +49,16 @@ class Vehicle {
             }
             System.out.println("Start date: " + startDate);
             System.out.println("Return date: " + endDate);
-            long diff = endDate.getTime() - startDate.getTime();
-            days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+
+            diff = endDate.getTime() - startDate.getTime();
+            diff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
             if (diff < 0) {
                 System.out.println("Invalid return date!");
             } else {
                 break;
             }
         }
-        System.out.println("Days: " + days);
+        System.out.println("Days: " + diff);
         System.out.println();
 //            Writing everything to a file now
         writeInfo();
@@ -97,16 +99,27 @@ class Vehicle {
         }
     }
 
+
     public void returnNow() {
         String regNo = "";
         String date = "";
+        String[] details = new String[7];
         Scanner scan = new Scanner(System.in);
         try {
             System.out.println("Enter the Driver Identification Number : ");
             regNo = scan.nextLine();
 //            Check if the driver has taken any vehicle out for rent
-            String currLine = "", lastLine = "";
+            String currLine = "";
+            BufferedReader br = new BufferedReader(new FileReader("drivers.txt"));
+            while ((currLine = br.readLine()) != null)
+            {
 
+                details = currLine.split(",");
+                if(details[0].equals(regNo)){
+                    System.out.println("Driver found");
+                    for(String i : details) System.out.println(i);
+                }
+            }
             System.out.println("Enter the date of actual return (dd/mm/yyyy): ");
             date = scan.nextLine();
         } catch (Exception e) {
@@ -114,8 +127,18 @@ class Vehicle {
         }
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         returnDate = LocalDate.parse(date, fmt);
-        actualDays = Period.between(returnDate, lStartDate);
-        System.out.println("Number of Days " + actualDays.getDays());
+        LocalDate startDate = LocalDate.parse(details[5], fmt);
+        LocalDate endDate = LocalDate.parse(details[6], fmt);
+        long days = DAYS.between(startDate, endDate);
+        long actualDays = DAYS.between(startDate, returnDate);
+//        System.out.println("Number of Days " + actualDays + days);
+        computeCost(days, actualDays);
+    }
+
+    public int computeCost(long reservedDays, long actualDays){
+        System.out.println("Vehicle was reserved for " + reservedDays + " days");
+        System.out.println("Vehicle was actually returned in " + actualDays + " days");
+        return 0; // return cost later
     }
 }
 
