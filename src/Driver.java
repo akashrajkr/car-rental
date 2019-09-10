@@ -14,10 +14,10 @@ public class Driver {
             DOB = scan.nextLine();
             System.out.println("Enter your Driver Identification Number");
             DIN = scan.nextLine();
-            System.out.println("What kind of licence do you own?(Full/Provisional)");
+            System.out.println("What kind of licence do you own?\n1. Full\n2. Provisional");
             DLtype = scan.nextLine();
             System.out.println("What kind of vehicle do you want to rent?");
-            System.out.println("Small car\nFamily car\nLuxury car\nSmall van\nLarge van");
+            System.out.println("1. Small car\n2. Family car\n3. Luxury car\n4. Small van\n5. Large van");
             vtype = scan.nextLine();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,24 +42,43 @@ public class Driver {
                     age--;
             }
         }
-
-        if (DLtype.equalsIgnoreCase("full")) {
-            if (age < 25 && (vtype.equalsIgnoreCase("Large van") || vtype.equalsIgnoreCase("Luxury car"))) {
-                System.out.println("You must be at least 25 years of age to drive a " + vtype + ".");
+/*
+    1. Small car
+    2. Family car
+    3. Luxury car
+    4. Small van
+    5. Large van
+*/
+        String vehicleChosen = " ";
+        switch (vtype) {
+            case "1": vehicleChosen = "Small car";
+                        break;
+            case "2": vehicleChosen = "Family car";
+                        break;
+            case "3": vehicleChosen = "Luxury car";
+                        break;
+            case "4": vehicleChosen = "Small van";
+                        break;
+            case "5": vehicleChosen = "Large van";
+                        break;
+            default:
+                System.out.println("Wrong input for vehicle..!");
+        }
+        if (Integer.parseInt(DLtype) == 1) {
+            if (age < 25 && Integer.parseInt(vtype) == 5 || Integer.parseInt(vtype) == 3 ) {
+                System.out.println("You must be at least 25 years of age to drive a " + vehicleChosen + ".");
                 return false;
-            } else if (age < 21 && (vtype.equalsIgnoreCase("Family car") || vtype.equalsIgnoreCase("Small van"))) {
-                System.out.println("You must be at least 21 years of age to drive a " + vtype + ".");
+            } else if ((age < 21 && Integer.parseInt(vtype) == 2) || (Integer.parseInt(vtype) == 4)) {
+                System.out.println("You must be at least 21 years of age to drive a " + vehicleChosen + ".");
                 return false;
-            } else if (age < 17 && vtype.equalsIgnoreCase("Small car")) {
-                System.out.println("You must be at least 17 years of age to drive a " + vtype + ".");
+            } else if (age < 17 && Integer.parseInt(vtype) == 1) {
+                System.out.println("You must be at least 17 years of age to drive a " + vehicleChosen + ".");
                 return false;
             } else {
                 return true;
             }
         }
-
         System.out.println("You must have a full licence to drive a " + vtype + ".");
         return false;
-
     }
 }
