@@ -1,8 +1,12 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Driver {
     private String driver_name, DOB, DIN, vtype, DLtype;
+    private Date dob;
 
     public void getDetails() {
         try {
@@ -12,6 +16,8 @@ public class Driver {
             driver_name = scan.nextLine();
             System.out.println("Enter your Date of Birth(dd/mm/yyyy)");
             DOB = scan.nextLine();
+            dob = new SimpleDateFormat("dd/MM/yyyy").parse(DOB);
+            System.out.println(dob);
             System.out.println("Enter your Driver Identification Number");
             DIN = scan.nextLine();
             System.out.println("What kind of licence do you own?\n1. Full\n2. Provisional");
@@ -49,7 +55,7 @@ public class Driver {
     4. Small van
     5. Large van
 */
-        String vehicleChosen = " ";
+        String vehicleChosen = "";
         switch (vtype) {
             case "1": vehicleChosen = "Small car";
                         break;
