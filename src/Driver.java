@@ -31,24 +31,7 @@ public class Driver {
     }
 
     public boolean canRent() {
-       /* String[] dob_split = DOB.split("/");
-        int[] birthdate = new int[dob_split.length];
 
-        for (int i = 0; i < birthdate.length; i++) {
-            birthdate[i] = Integer.parseInt(dob_split[i]);
-        }
-        Calendar cal = Calendar.getInstance();
-        int age = cal.getWeekYear() - birthdate[2];
-
-        if (age == 17 || age == 21 || age == 25) {
-            if (cal.get(Calendar.MONTH) < birthdate[1])
-                age--;
-            else if (cal.get(Calendar.MONTH) == birthdate[1]) {
-                if (cal.get(Calendar.DATE) < birthdate[0])
-                    age--;
-            }
-        }
-*/
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dob = LocalDate.parse(DOB, fmt);
         LocalDate now = LocalDate.now();
