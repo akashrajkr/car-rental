@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import static java.lang.System.exit;
-import java.util.Scanner;
 
 class RentalManager{
     public static void main(String[] args) {
@@ -59,9 +58,8 @@ class RentalManager{
         driver.getDetails();
         if(driver.canRent()){
             System.out.println("Driver can rent");
-            driver.writeInfo();
             Vehicle v = new Vehicle();
-            v.rentNow();
+            v.rentNow(driver);
         } else {
             System.out.println("Driver cannot rent");
         }

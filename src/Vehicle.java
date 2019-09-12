@@ -1,54 +1,59 @@
 import java.io.*;
-import java.text.*;
+import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.time.format.DateTimeParseException;
 import java.util.Random;
 import java.util.Scanner;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 class Vehicle {
-    private Date startDate, endDate;
-
     //    localDateTime objects for adding days to Date objects
-    private LocalDate lStartDate, lEndDate;
+    private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private LocalDate endDate, startDate;
 
-    void rentNow() {
+    void rentNow(Driver driver) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Vehicle required from (press <Enter> to start from today)  (dd/mm/yyyy) : ");
-        String date = scan.nextLine();
-        if (date.isEmpty()) {
-            startDate = new Date();
-            lStartDate = LocalDate.now();
-        } else {
-            try {
-                startDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-                lStartDate = LocalDate.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                System.out.println("Parse error");
+        String date;
+        while (true){
+            System.out.println("Vehicle required from (press <Enter> to start from today)  (dd/mm/yyyy) : ");
+            date = scan.nextLine();
+            if (date.isEmpty()) {
+                startDate = LocalDate.now();
+                break;
             }
+            else {
+                try{
+                    startDate = LocalDate.parse(date, fmt);
+                }catch (DateTimeParseException e){
+                    e.getMessage();
+                    continue;
+                }
+
+            }
+            if(startDate.isBefore(LocalDate.now())) break;
+            else System.out.println("You can't really go back to the past!\n please enter a valid date...\n");
         }
         while (true) {
             System.out.println("Enter your Date of Return(dd/mm/yyyy) : ");
             date = scan.nextLine();
-            try {
-                endDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-                lEndDate = LocalDate.ofInstant(endDate.toInstant(), ZoneId.systemDefault());
-            } catch (ParseException e) {
-                e.printStackTrace();
+            try{
+                endDate = LocalDate.parse(date, fmt);
+            }catch (DateTimeParseException e){
+                e.getMessage();
+                continue;
             }
             System.out.println("Start date: " + startDate);
             System.out.println("Return date: " + endDate);
-            if (endDate.before(startDate)) {
-                System.out.println("Invalid return date!");
-            } else {
-                break;
-            }
+            if (endDate.isBefore(startDate)) {
+                System.out.println("Invalid return date! (Return date is before the start date)");
+                continue;
+            } else break;
         }
 //      Writing everything to a file now
+        System.out.println("Assigning you a vehicle now!");
+        driver.writeInfo();
         writeInfo();
     }
 
@@ -69,9 +74,7 @@ class Vehicle {
         tempMake = rnd.nextInt(15) + 2005 + "";
         System.out.println("Registration number " + tempRegNumber + "\nMake : " + tempMake);
 
-        String textToAppend = String.format(",%s,%s,%s,%s", tempRegNumber, tempMake, lStartDate.format(fmt), lEndDate.format(fmt));
-//        lStartDate = LocalDate.ofInstant(startDate.toInstant(),  ZoneId.systemDefault());  Might help while reading the date format from txt file
-
+        String textToAppend = String.format(",%s,%s,%s,%s", tempRegNumber, tempMake, startDate.format(fmt), endDate.format(fmt));
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(
@@ -122,7 +125,6 @@ class Vehicle {
         LocalDate endDate = LocalDate.parse(details[6], fmt);
         long days = DAYS.between(startDate, endDate);
         long actualDays = DAYS.between(startDate, returnDate);
-//        System.out.println("Number of Days " + actualDays + days);
         int cost = computeCost(days, actualDays);
          System.out.println("The cost: " + cost);
     }
