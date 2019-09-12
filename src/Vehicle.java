@@ -12,6 +12,7 @@ class Vehicle {
     //    localDateTime objects for adding days to Date objects
     private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private LocalDate endDate, startDate;
+    protected float cost,base;
 
     void rentNow(Driver driver) {
         Scanner scan = new Scanner(System.in);
@@ -94,7 +95,7 @@ class Vehicle {
     }
 
 
-     void returnNow() {
+    void returnNow() {
         String regNo;
         String date = "";
         String[] details = new String[7];
@@ -125,33 +126,121 @@ class Vehicle {
         LocalDate endDate = LocalDate.parse(details[6], fmt);
         long days = DAYS.between(startDate, endDate);
         long actualDays = DAYS.between(startDate, returnDate);
-        int cost = computeCost(days, actualDays);
-         System.out.println("The cost: " + cost);
+        float cost = computeCost(days, actualDays);
+        System.out.println("The cost: " + cost);
     }
 
-    private int computeCost(long reservedDays, long actualDays){
-        System.out.println("Vehicle was reserved for " + reservedDays + " days");
+    private float computeCost(long reservedDays, long actualDays){
+        /*System.out.println("Vehicle was reserved for " + reservedDays + " days");
         System.out.println("Vehicle was actually returned in " + actualDays + " days");
-        return 0; // return cost later
+        return 0; // return cost later*/
     }
 }
 
 class Luxury extends Vehicle {
-
+    private double base = 150.0;
+    private float computeCost(long reservedDays, long actualDays){
+        cost= (float) (reservedDays*base-(reservedDays-actualDays)*0.3*base);
+        return 0;
+    }
 }
 
 class Small_car extends Vehicle {
-    boolean ac;
+    boolean ac=false;
+    String ans;
+    private float base = 30;
+    Scanner scan = new Scanner(System.in);
+    Small_car(){
+        System.out.println("Do you require Air Condidtioning? (Y/N)");
+        ans = scan.nextLine();
+        if(ans=="Y")
+            ac=true;
+
+    }
+    private float computeCost(long reservedDays, long actualDays){
+        if(reservedDays>=actualDays)
+            cost=reservedDays*base-(reservedDays-actualDays)*base;
+        else
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.2);
+        if(ac)
+        {
+            cost = (float) (1.1*cost);
+        }
+        return cost;
+    }
 }
 
 class Family_car extends Vehicle {
-    boolean ac;
+    boolean ac=false;
+    String ans;
+    private float base =  40;
+    Scanner scan = new Scanner(System.in);
+    Family_car(){
+        System.out.println("Do you require Air Condidtioning? (Y/N)");
+        ans = scan.nextLine();
+        if(ans=="Y")
+            ac=true;
+
+    }
+    private float computeCost(long reservedDays, long actualDays){
+        if(reservedDays>=actualDays)
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.5);
+        else
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.2);
+        if(ac)
+        {
+            cost = (float) (1.1*cost);
+        }
+        return cost;
+    }
 }
 
 class Small_Van extends Vehicle {
-    boolean ac;
+    boolean ac=false;
+    String ans;
+    private float base = 50;
+    Scanner scan = new Scanner(System.in);
+    Small_Van(){
+        System.out.println("Do you require Air Conditioning? (Y/N)");
+        ans = scan.nextLine();
+        if(ans=="Y")
+            ac=true;
+
+    }
+    private float computeCost(long reservedDays, long actualDays){
+        if(reservedDays>=actualDays)
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.5);
+        else
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.2);
+        if(ac)
+        {
+            cost = (float) (1.1*cost);
+        }
+        return cost;
+    }
 }
 
 class Large_Van extends Vehicle {
-    boolean ac;
+    boolean ac=false;
+    String ans;
+    private float base = 70;
+    Scanner scan = new Scanner(System.in);
+    Large_Van(){
+        System.out.println("Do you require Air Condidtioning? (Y/N)");
+        ans = scan.nextLine();
+        if(ans=="Y")
+            ac=true;
+
+    }
+    private float computeCost(long reservedDays, long actualDays){
+        if(reservedDays>=actualDays)
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.5);
+        else
+            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.2);
+        if(ac)
+        {
+            cost = (float) (1.1*cost);
+        }
+        return cost;
+    }
 }
