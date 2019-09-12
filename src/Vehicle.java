@@ -132,8 +132,8 @@ class Vehicle {
 
     private float computeCost(long reservedDays, long actualDays){
         /*System.out.println("Vehicle was reserved for " + reservedDays + " days");
-        System.out.println("Vehicle was actually returned in " + actualDays + " days");
-        return 0; // return cost later*/
+        System.out.println("Vehicle was actually returned in " + actualDays + " days");*/
+        return 0; // return cost later
     }
 }
 
