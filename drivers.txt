@@ -1,8 +1,2 @@
 DIN, driverName, date of birth, vehicle registration number, make, startdate, enddate
-jklasd,akash,19/04/2000,KA-7 KH-9875,2018,10/09/2019,10/10/2019
-132231,Akash,19/04/2000,KA-9 JJ-0030,2012,10/09/2019,10/10/2019
-13213,Akash,10/04/2000,KA-8 SZ-2204,2008,10/09/2019,10/10/2019
-224561,Akash,19/04/2000
-21001,akash,19/04/2000
-282282,akash,19/04/2000
-adsadad,Akash,19/04/2000,KA-13 AY-8796,2005,12/09/2019,10/12/2019
+
