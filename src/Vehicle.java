@@ -11,7 +11,7 @@ class Vehicle {
     //    localDateTime objects for adding days to Date objects
     private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private LocalDate endDate, startDate;
-    protected float cost,base;
+    float cost,base;
 
     void rentNow(Driver driver) {
         Scanner scan = new Scanner(System.in);
@@ -48,7 +48,6 @@ class Vehicle {
             System.out.println("Return date: " + endDate);
             if (endDate.isBefore(startDate)) {
                 System.out.println("Invalid return date! (Return date is before the start date)");
-                continue;
             } else break;
         }
 //      Writing everything to a file now
@@ -129,18 +128,17 @@ class Vehicle {
         System.out.println("The cost: " + cost);
     }
 
-    private float computeCost(long reservedDays, long actualDays){
-        /*System.out.println("Vehicle was reserved for " + reservedDays + " days");
-        System.out.println("Vehicle was actually returned in " + actualDays + " days");*/
-        return 0; // return cost later
+    private float computeCost(long a, long b) {
+        return 0;
     }
+
 }
 
-class Luxury extends Vehicle {
+class Luxury_car extends Vehicle {
     private double base = 150.0;
     private float computeCost(long reservedDays, long actualDays){
         cost= (float) (reservedDays*base-(reservedDays-actualDays)*0.3*base);
-        return 0;
+        return cost;
     }
 }
 

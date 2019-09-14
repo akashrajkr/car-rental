@@ -1,2 +1,1 @@
 DIN, driverName, date of birth, vehicle registration number, make, startdate, enddate
-
