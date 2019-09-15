@@ -10,6 +10,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 class Vehicle {
     //    localDateTime objects for adding days to Date objects
     private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private boolean acPresent;
     private LocalDate endDate, startDate;
     float cost,base;
 
@@ -93,24 +94,14 @@ class Vehicle {
     }
 
 
-    void returnNow() {
-        String DIN;
+    void returnNow(String currLine) {
         String date = "";
         String[] details = new String[8];
         Scanner scan = new Scanner(System.in);
         try {
-            System.out.println("Enter the Driver Identification Number : ");
-            DIN = scan.nextLine();
-//            Check if the driver has taken any vehicle out for rent
-            String currLine = findDriver(DIN);
-
-            if(currLine != null){
-                details = currLine.split(",");
-                System.out.println("Driver found");
-                for(String i : details) System.out.println(i);
-            } else {
-                return;
-            }
+            details = currLine.split(",");
+            System.out.println("Driver found");
+            for(String i : details) System.out.println(i);
             System.out.println("Enter the date of actual return (dd/mm/yyyy): ");
             date = scan.nextLine();
         } catch (Exception e) {
@@ -118,8 +109,8 @@ class Vehicle {
         }
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate returnDate = LocalDate.parse(date, fmt);
-        LocalDate startDate = LocalDate.parse(details[5], fmt);
-        LocalDate endDate = LocalDate.parse(details[6], fmt);
+        LocalDate startDate = LocalDate.parse(details[6], fmt);
+        LocalDate endDate = LocalDate.parse(details[7], fmt);
         long days = DAYS.between(startDate, endDate);
         long actualDays = DAYS.between(startDate, returnDate);
         float cost = computeCost(days, actualDays);
@@ -130,7 +121,7 @@ class Vehicle {
         return 0;
     }
 
-    public String findDriver(String DIN){
+    String findDriver(String DIN){
 //            Check if the driver has taken any vehicle out for rent
         boolean found = false;
         String currLine;
@@ -177,7 +168,6 @@ class Small_car extends Vehicle {
         ans = scan.nextLine();
         if(ans=="Y")
             ac=true;
-
     }
     private float computeCost(long reservedDays, long actualDays){
         if(reservedDays>=actualDays)

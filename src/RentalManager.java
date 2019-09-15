@@ -51,10 +51,44 @@ class RentalManager{
     }
 
     private static void returnVehicle() {
-        String regNo = "";
-        System.out.println("Enter the Driver Identification Number : ");
-        regNo = scan.nextLine();
-
+        String DIN;
+        String [] details;
+        String currLine;
+        int vtype;
+        try {
+            System.out.println("Enter the Driver Identification Number : ");
+            DIN = scan.nextLine();
+//            Check if the driver has taken any vehicle out for rent
+            currLine = new Vehicle().findDriver(DIN);
+            if(currLine != null){
+                details = currLine.split(",");
+                vtype = Integer.parseInt(details[3]);
+            } else return;
+            switch (vtype) {
+                case 1:
+                    Small_car small_car = new Small_car();
+                    small_car.returnNow(currLine);
+                    break;
+                case 2:
+                    Family_car family_car = new Family_car();
+                    family_car.returnNow(currLine);
+                    break;
+                case 3:
+                    Luxury_car luxury_car = new Luxury_car();
+                    luxury_car.returnNow(currLine);
+                    break;
+                case 4:
+                    Small_Van small_van = new Small_Van();
+                    small_van.returnNow(currLine);
+                    break;
+                case 5:
+                    Large_Van large_van = new Large_Van();
+                    large_van.returnNow(currLine);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         exit(0);
     }
 
