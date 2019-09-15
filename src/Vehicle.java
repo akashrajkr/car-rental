@@ -94,24 +94,22 @@ class Vehicle {
 
 
     void returnNow() {
-        String regNo;
+        String DIN;
         String date = "";
-        String[] details = new String[7];
+        String[] details = new String[8];
         Scanner scan = new Scanner(System.in);
         try {
             System.out.println("Enter the Driver Identification Number : ");
-            regNo = scan.nextLine();
+            DIN = scan.nextLine();
 //            Check if the driver has taken any vehicle out for rent
-            String currLine;
-            BufferedReader br = new BufferedReader(new FileReader("drivers.txt"));
-            while ((currLine = br.readLine()) != null)
-            {
+            String currLine = findDriver(DIN);
 
+            if(currLine != null){
                 details = currLine.split(",");
-                if(details[0].equals(regNo)){
-                    System.out.println("Driver found");
-                    for(String i : details) System.out.println(i);
-                }
+                System.out.println("Driver found");
+                for(String i : details) System.out.println(i);
+            } else {
+                return;
             }
             System.out.println("Enter the date of actual return (dd/mm/yyyy): ");
             date = scan.nextLine();
@@ -130,6 +128,33 @@ class Vehicle {
 
     private float computeCost(long a, long b) {
         return 0;
+    }
+
+    public String findDriver(String DIN){
+//            Check if the driver has taken any vehicle out for rent
+        boolean found = false;
+        String currLine;
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("drivers.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (true)
+        {
+            try {
+                assert br != null;
+                if (((currLine = br.readLine())== null)) break;
+                if(currLine.split(",")[0].equalsIgnoreCase(DIN)){
+                    found  = true;
+                    return currLine;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Driver not found! Check DIN again...");
+        return null;
     }
 
 }
