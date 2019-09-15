@@ -10,8 +10,8 @@ import static java.time.temporal.ChronoUnit.DAYS;
 class Vehicle {
     //    localDateTime objects for adding days to Date objects
     private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private boolean acPresent;
     private LocalDate endDate, startDate;
+    private int reservedDays, actualDays;
     float cost,base;
 
     void rentNow(Driver driver) {
@@ -111,19 +111,45 @@ class Vehicle {
         LocalDate returnDate = LocalDate.parse(date, fmt);
         LocalDate startDate = LocalDate.parse(details[6], fmt);
         LocalDate endDate = LocalDate.parse(details[7], fmt);
-        long days = DAYS.between(startDate, endDate);
-        long actualDays = DAYS.between(startDate, returnDate);
-        float cost = computeCost(days, actualDays);
-        System.out.println("The cost: " + cost);
+        reservedDays = (int) DAYS.between(startDate, endDate);
+        actualDays = (int) DAYS.between(startDate, returnDate);
+        System.out.println("Reserved days: " + reservedDays + "\nActual days: " + actualDays);
+    }
+
+    public int getActualDays() {
+        return actualDays;
+    }
+
+    public int getReservedDays() {
+        return reservedDays;
     }
 
     private float computeCost(long a, long b) {
         return 0;
     }
 
+    void writeAcInfo(String isAcrequired) {
+        String textToAppend = String.format(",%s", isAcrequired);
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(
+                    new FileWriter("drivers.txt", true)  //Set true for append mode
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (writer != null) {
+                writer.write(textToAppend);
+                writer.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     String findDriver(String DIN){
 //            Check if the driver has taken any vehicle out for rent
-        boolean found = false;
         String currLine;
         BufferedReader br = null;
         try {
@@ -137,7 +163,6 @@ class Vehicle {
                 assert br != null;
                 if (((currLine = br.readLine())== null)) break;
                 if(currLine.split(",")[0].equalsIgnoreCase(DIN)){
-                    found  = true;
                     return currLine;
                 }
             } catch (IOException e) {
@@ -163,12 +188,7 @@ class Small_car extends Vehicle {
     String ans;
     private float base = 30;
     Scanner scan = new Scanner(System.in);
-    Small_car(){
-        System.out.println("Do you require Air Condidtioning? (Y/N)");
-        ans = scan.nextLine();
-        if(ans=="Y")
-            ac=true;
-    }
+
     private float computeCost(long reservedDays, long actualDays){
         if(reservedDays>=actualDays)
             cost=reservedDays*base-(reservedDays-actualDays)*base;
@@ -179,6 +199,26 @@ class Small_car extends Vehicle {
             cost = (float) (1.1*cost);
         }
         return cost;
+    }
+
+    @Override
+    void rentNow(Driver driver) {
+        String isAcrequired;
+        do {
+            System.out.println("Is AC required? (yes/no)");
+            isAcrequired = scan.nextLine();
+        } while (isAcrequired.equalsIgnoreCase("yes") || isAcrequired.equalsIgnoreCase("y") || isAcrequired.equalsIgnoreCase("no") ||isAcrequired.equalsIgnoreCase("n"));
+        super.rentNow(driver);
+        writeAcInfo(isAcrequired);
+    }
+
+    @Override
+    void returnNow(String currLine) {
+        super.returnNow(currLine);
+        int rd = getReservedDays();
+        int ad = getActualDays();
+        float cost = computeCost(rd, ad);
+        System.out.println("Cost: " + cost);
     }
 }
 
