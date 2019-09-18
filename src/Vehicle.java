@@ -28,7 +28,7 @@ class Vehicle {
                 try{
                     startDate = LocalDate.parse(date, fmt);
                 }catch (DateTimeParseException e){
-                    e.getMessage();
+                    System.out.println(e.getMessage());
                     continue;
                 }
 
@@ -207,7 +207,7 @@ class Small_car extends Vehicle {
         do {
             System.out.println("Is AC required? (yes/no)");
             isAcrequired = scan.nextLine();
-        } while (isAcrequired.equalsIgnoreCase("yes") || isAcrequired.equalsIgnoreCase("y") || isAcrequired.equalsIgnoreCase("no") ||isAcrequired.equalsIgnoreCase("n"));
+        } while (!(isAcrequired.equalsIgnoreCase("yes") || isAcrequired.equalsIgnoreCase("y") || isAcrequired.equalsIgnoreCase("no") ||isAcrequired.equalsIgnoreCase("n")));
         super.rentNow(driver);
         writeAcInfo(isAcrequired);
     }

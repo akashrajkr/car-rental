@@ -20,27 +20,7 @@ class RentalManager{
                 rentVehicle();
             }
             else if(ch == 2){
-                try (BufferedReader vehicleDatabase = new BufferedReader(new FileReader("drivers.txt"))) {
-                    vehicleDatabase.readLine(); // Reading the firstline as it is useless
-                    System.out.println("List of vehicles out for rent: ");
-                    String record;
-                    if(vehicleDatabase.readLine() == null){
-                        System.out.println("No vehicles out for rent!");
-                    }
-                    int i = 0;
-                    while (((record = vehicleDatabase.readLine()) != null)) {
-                        String[] details = record.split(",");
-                        System.out.println(String.format("%d. %s, make: %s", i, details[4], details[5]));
-                        i++;
-                    }
-                } catch (FileNotFoundException e){
-                    e.printStackTrace();
-                    System.out.println("file not found! exiting...");
-                    exit(0);
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
+                new Driver().listVehicles();
             } else if(ch == 3) {
                 returnVehicle();
                 break;

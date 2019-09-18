@@ -1,11 +1,11 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 public class Driver {
     private String driver_name, DOB, DIN, vtype, DLtype;
@@ -100,6 +100,37 @@ public class Driver {
             e.printStackTrace();
         }
 
+    }
+
+
+    public void listVehicles() {
+        try {
+            BufferedReader vehicleDatabase = new BufferedReader(new FileReader("drivers.txt"));
+            vehicleDatabase.readLine(); // Reading the firstline as it is useless
+            System.out.println("List of vehicles out for rent: ");
+            String record;
+            if((record = vehicleDatabase.readLine()) == null){
+                System.out.println("No vehicles out for rent!");
+            }
+            int i = 0;
+            while ((record != null)) {
+                try {
+                    String[] details = record.split(",");
+                    System.out.println(String.format("%d. %s, make: %s", i + 1, details[4], details[5]));
+                    record = vehicleDatabase.readLine();
+                    i++;
+                }catch ( ArrayIndexOutOfBoundsException e){
+                    record = vehicleDatabase.readLine();
+                }
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+            System.out.println("file not found! exiting...");
+            exit(0);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
     }
     public String getVtype() {
         return vtype;

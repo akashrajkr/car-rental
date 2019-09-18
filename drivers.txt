@@ -1,2 +1,7 @@
 DIN, driverName, date of birth, vehicle registration number, make, startdate, enddate
+
+
 129911,Akash,19/04/2000,1,KA-5 WE-2212,2007,15/09/2019,20/10/2019,yes
+
+129911,Akash,19/04/2000,1,KA-5 WE-2212,2007,15/09/2019,20/10/2019,yes
+23231,akash,19/04/2000,1,KA-12 IT-9176,2006,18/09/2019,10/10/2019,yes
