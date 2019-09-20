@@ -9,7 +9,7 @@ class RentalManager{
             System.out.println("1.Rent a vehicle.\n2.List all the vehicles out for rent.\n3. Return a vehicle.\n4.Exit");
             int ch = Integer.parseInt(scan.nextLine());
             if(ch == 4){
-                System.out.println("exiting...");
+                System.out.println("Exiting...");
                 exit(0);
             }
             else if(ch==1) {
