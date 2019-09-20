@@ -31,7 +31,6 @@ class Vehicle {
                     System.out.println(e.getMessage());
                     continue;
                 }
-
             }
             if(startDate.isBefore(LocalDate.now())) break;
             else System.out.println("You can't really go back to the past!\n please enter a valid date...\n");
@@ -184,16 +183,16 @@ class Luxury_car extends Vehicle {
 }
 
 class Small_car extends Vehicle {
-    boolean ac=false;
-    String ans;
-    private float base = 30;
-    Scanner scan = new Scanner(System.in);
+    private boolean ac=false;
+    private String ans;
+    private Scanner scan = new Scanner(System.in);
 
     private float computeCost(long reservedDays, long actualDays){
+        float base = 30;
         if(reservedDays>=actualDays)
-            cost=reservedDays*base-(reservedDays-actualDays)*base;
+            cost=reservedDays* base -(reservedDays-actualDays)* base;
         else
-            cost= (float) (reservedDays*base-(reservedDays-actualDays)*base*0.2);
+            cost= (float) (reservedDays* base -(reservedDays-actualDays)* base *0.2);
         if(ac)
         {
             cost = (float) (1.1*cost);
@@ -208,6 +207,8 @@ class Small_car extends Vehicle {
             System.out.println("Is AC required? (yes/no)");
             isAcrequired = scan.nextLine();
         } while (!(isAcrequired.equalsIgnoreCase("yes") || isAcrequired.equalsIgnoreCase("y") || isAcrequired.equalsIgnoreCase("no") ||isAcrequired.equalsIgnoreCase("n")));
+        if(isAcrequired.equalsIgnoreCase("yes") || isAcrequired.equalsIgnoreCase("y")) ac = true;
+        if(isAcrequired.equalsIgnoreCase("no") || isAcrequired.equalsIgnoreCase("n")) ac = false;
         super.rentNow(driver);
         writeAcInfo(isAcrequired);
     }
@@ -255,7 +256,7 @@ class Small_Van extends Vehicle {
     Small_Van(){
         System.out.println("Do you require Air Conditioning? (Y/N)");
         ans = scan.nextLine();
-        if(ans=="Y")
+        if(ans.equalsIgnoreCase("y"))
             ac=true;
 
     }
